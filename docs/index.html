@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="MeshEdit Project | Gan Tu">
+<meta name="author" content="">
+<link rel="icon" href="assets/img/favicon.ico">
+<title>MeshEdit Project | Gan Tu</title>
+<!-- Bootstrap core CSS -->
+<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+<!-- Fonts -->
+<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+<link href="assets/css/font.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="assets/css/mediumish.css" rel="stylesheet">
+<link href="assets/css/monokai-sublime.css" rel="stylesheet">
+<link href="assets/css/custom.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Begin Nav
+================================================== -->
+<nav class="navbar navbar-toggleable-md navbar-light bg-white fixed-top mediumnavigation">
+<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="container">
+	<!-- Begin Logo -->
+	<a class="navbar-brand" href="index.html">
+	<img src="./assets/img/logo.png" alt="logo">
+	</a>
+	<!-- End Logo -->
+		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+		<!-- Begin Menu -->
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item active">
+			<a class="nav-link" href="index.html">Deliverable <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" href="https://michael-tu.github.io/Mesh-Editor" target="_blank">GitHub</a>
+			</li>
+		</ul>
+		<!-- End Menu -->
+	</div>
+</div>
+</nav>
+<!-- End Nav
+================================================== -->
+
+
+<!-- Return to Top -->
+<a href="javascript:" id="return-to-top">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+<!-- Begin Article
+================================================== -->
+<div class="container">
+	<div class="row">
+
+		<div class="col-md-1 col-xs-12"></div>
+		<!-- Begin Post -->
+		<div class="col-md-10 col-md-offset-2 col-xs-12">
+			<div class="mainheading">
+
+				<!-- Begin Top Meta -->
+				<div class="row post-top-meta">
+					<div class="col-md-2">
+						<a href="http://github.tugan.me"><img class="author-thumb" src="./assets/img/profile-pic.jpg" alt="Gan Tu's Profile Picture"></a>
+					</div>
+					<div class="col-md-10">
+						<a class="link-dark" href="author.html">Gan Tu (Michael)</a>
+						<span class="author-description">Student of CS 184: Computer Graphics and Imaging, Spring 2018 at UC Berkeley.</span>
+						<span class="post-date">9 Feb 2018</span><span class="dot"></span><span class="post-read">10 min read</span>
+					</div>
+				</div>
+				<!-- End Top Menta -->
+
+				<h1 class="posttitle">Project 2: Mesh Editor</h1>
+
+			</div>
+
+			<!-- Begin Featured Image -->
+			<img class="featured-image img-fluid" src="./assets/img/post/transformation.jpg" alt="featured blog image - tiger">
+			<!-- End Featured Image -->
+
+			<!-- Begin Post Content -->
+			<div class="article-post">
+
+				<!-- <div class="text-center">
+					<figure class="figure">
+					 	<img src="./assets/img/result/part1.png" class="figure-img img-fluid rounded" alt="">
+					  	<figcaption class="figure-caption text-center"></figcaption>
+					</figure>
+				</div> -->
+
+				<!-- <div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/" class="figure-img img-fluid rounded" alt="">
+						  	<figcaption class="figure-caption text-center"></figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/" class="figure-img img-fluid rounded" alt="">
+						  	<figcaption class="figure-caption text-center"></figcaption>
+						</figure>
+					</div>
+			 	</div> -->
+
+
+				<h2><b>Overview</b></h2>
+
+				<p>In this project, I explored a subset of the geometric topics. I built Bezier curves and surfaces using de Casteljau's algorithm. I manipulated half-edge meshes and added support for edge-flip and edge-split local mesh operations. With these mesh operations, I implemented upsampling geometry processing technique - Loop subdivision - as a way to increase resolution via interpolation.</p>
+
+				<p>Through this project, I learned many interesting things, especially on topics of bezier curves and half-edges. For software like Adobe Illustrator, the pen tool is able to draw curves similar to bezier curve, so it's pretty awesome that I get to know how the algorithm behind this popular and powerful tool works. Also, getting a deeper understanding of the half-edge data structure is very useful and educational as I finally learned how to represent complicated mesh relationships like COLLADA mesh models in a data structure.</p>
+
+
+				<p>Upon completion of this project, it's pretty exciting to see that our program is able to render many cool COLLADA mesh model files! Here are some examples:</p>
+				<div class="row">
+					<div class="text-center">
+						<figure class="figure">
+						 	<img src="./assets/img/result/demo-1.jpg" class="figure-img img-fluid rounded" alt="Beast Rendering (default OpenGL shading with average vertex normals)">
+						  	<figcaption class="figure-caption text-center">Beast Rendering <i>(default OpenGL shading with average vertex normals)</i></figcaption>
+						</figure>
+					</div>
+				</div>
+				<div class="row">
+					<div class="text-center">
+						<figure class="figure">
+						 	<img src="./assets/img/result/demo-2.jpg" class="figure-img img-fluid rounded" alt="Armadillo Rendering (default OpenGL shading with average vertex normals)">
+						  	<figcaption class="figure-caption text-center">Armadillo Rendering <i>(default OpenGL shading with average vertex normals)</i></figcaption>
+						</figure>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/demo-3-1.jpg" class="figure-img img-fluid rounded" alt="Cow Rendering">
+						  	<figcaption class="figure-caption text-center">Cow Rendering</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/demo-3-2.jpg" class="figure-img img-fluid rounded" alt="Cow Rendering (default OpenGL shading with average vertex normals)">
+						  	<figcaption class="figure-caption text-center">Cow Rendering  <i>(default OpenGL shading with average vertex normals)</i></figcaption>
+						</figure>
+					</div>
+			 	</div>
+			 	<div class="row">
+					<div class="text-center">
+						<figure class="figure">
+						 	<img src="./assets/img/result/demo-4.jpg" class="figure-img img-fluid rounded" alt="Car Rendering">
+						  	<figcaption class="figure-caption text-center">Car Rendering</figcaption>
+						</figure>
+					</div>
+				</div>
+
+				<h2><b>Section I: Bezier Curves and Surfaces</b></h2>
+				<h4><b>Part 1: Bezier curves with 1D de Casteljau subdivision</b></h4>
+
+
+				<!-- Briefly explain de Casteljau's algorithm and how you implemented it in order to evaluate Bezier curves. -->
+
+				<p>A Bézier curve is a parametric curve frequently used in computer graphics and related fields. The de Casteljau's algorithm is a recursive method to evaluate polynomials in Bézier curves.</p>
+
+				<p>In de Casteljau's algorithm, we recursively calculate subdivision level control points by taking the midpoints along edges formed by previous control points that split the corresponding edge to a ratio of t to 1-t, where t is the parameter used at which to evaluate the Bezier curve, to form new control points, until we reaches the final evaluated point. Mathematically, given a set of points <small><code>p_0, p_1, ..., p_n</code></small>, we compute a new set of points <small><code>p'_0, p'_1, ..., p'_{n-1}</code></small> by <small><code>p'_i = lerp(p_i, p_{i+1}, t) = (1-t)*p_i + t*p_{i+1}</code></small> Then, we can get our Bezier curve using these successive linear interpolations.</p>
+
+				<p>Below are visualizations of above concepts.</p>
+
+				<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/post/bezier-curve-4point.png" class="figure-img img-fluid rounded" alt="Bezier Curve Illustration" height="200px">
+						  	<figcaption class="figure-caption text-center">Bezier Curve Illustration</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/post/bezier-curve-algorithm.png" class="figure-img img-fluid rounded" alt="Cubic Bezier Curve Algorithm" height="200px">
+						  	<figcaption class="figure-caption text-center">Cubic Bezier Curve Algorithm</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+
+				<p>To implement the algorithm, I store all intermediate control points into the 2D vector evaluatedLevels. When function <small><code>evaluateStep</code></small> is called, I loop through the most recent control points to interpolate the next level of control points. If the most recent set contains only one point, it means we have finished evaluating and the function returns immediately.</p>
+
+				<p>Below is a step-by-step evaluation, from the original control points down to the final evaluated point, for my own 6-control-point Bezier curve using de Casteljau's algorithm with a t value of 0.5.</p>
+				<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p1-1-1.jpg" class="figure-img img-fluid rounded" alt="6-control-point Bezier curve (step 0)">
+						  	<figcaption class="figure-caption text-center">6-control-point Bezier curve (step 0)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p1-1-2.jpg" class="figure-img img-fluid rounded" alt="6-control-point Bezier curve (step 1)">
+						  	<figcaption class="figure-caption text-center">6-control-point Bezier curve (step 1)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p1-1-3.jpg" class="figure-img img-fluid rounded" alt="6-control-point Bezier curve (step 2)">
+						  	<figcaption class="figure-caption text-center">6-control-point Bezier curve (step 2)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p1-1-4.jpg" class="figure-img img-fluid rounded" alt="6-control-point Bezier curve (step 3)">
+						  	<figcaption class="figure-caption text-center">6-control-point Bezier curve (step 3)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p1-1-5.jpg" class="figure-img img-fluid rounded" alt="6-control-point Bezier curve (step 4)">
+						  	<figcaption class="figure-caption text-center">6-control-point Bezier curve (step 4)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p1-1-6.jpg" class="figure-img img-fluid rounded" alt="6-point Bezier curve (step 5)">
+						  	<figcaption class="figure-caption text-center">6-point Bezier curve (step 5)</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+			 	<p>Here is another 6-control-point Bezier curve with shifted points and a smaller t value.</p>
+				<div class="text-center">
+						<figure class="figure">
+						 	<img src="./assets/img/result/p1-2.jpg" class="figure-img img-fluid rounded" alt="6-control-point Bezier curve (V2)" width="500px">
+						  	<figcaption class="figure-caption text-center">6-control-point Bezier curve (version 2)</figcaption>
+						</figure>
+					</div>
+
+				<h4><b>Part 2: Bezier surfaces with separable 1D de Casteljau subdivision</b></h4>
+
+				<!-- Briefly explain how de Casteljau's algorithm extends to Bezier surfaces and how you implemented it in order to evaluate Bezier surfaces. -->
+
+				<p>Generalizations of Bézier curves to higher dimensions are Bézier surfaces. There are different methods for evaluating Bezier surfaces. In this project, I used the "separable 1D de Casteljau" method, where I do 1D de Casteljau in uv and then in v.</p>
+
+				<p>To implement the algorithm, I created a helper function called <small><code>evaluate1D</code></small> to perform 1D de Casteljau's algorithm and return the final computed point. Thus, I simply loop through every row of control points, apply 1D de Casteljau subdivision to get an evaluated interpolated point for that row, and then another 1D de Casteljau subdivision on the interpolated points of all rows.</p>
+
+				<p>Below are visualizations of above concepts.</p>
+
+				<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/post/bezier-surface-animation.gif" class="figure-img img-fluid rounded" alt="Bezier Surfaces Animation" height="200px">
+						  	<figcaption class="figure-caption text-center">Bezier Surfaces Animation</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/post/bezier-surface-1d-de-casteljau-algorithm.png" class="figure-img img-fluid rounded" alt="Separable 1d de Casteljau's Algorithm" height="200px">
+						  	<figcaption class="figure-caption text-center">Separable 1d de Casteljau's Algorithm</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+			 	<p>Below is a rendering of a teapot using Bezier Surfaces with Separable 1d de Casteljau's Algorithm for surface evaluation.</p>
+
+				<div class="row">
+					<div class="text-center">
+						<figure class="figure">
+						 	<img src="./assets/img/result/p2.jpg" class="figure-img img-fluid rounded" alt="Teapot Bezier Surface">
+						  	<figcaption class="figure-caption text-center">Teapot Bezier Surface Rendering</figcaption>
+						</figure>
+					</div>
+				</div>
+
+
+				<h2><b>Section II: Sampling</b></h2>
+
+				<h4><b>Part 3: Average normals for half-edge meshes</b></h4>
+
+				<!-- Briefly explain what you did.
+				Show mesh renderings of dae/teapot.dae, comparing the default OpenGL shading with and without smoothed normals (use Q to switch between face normals and average vertex normals). -->
+
+				<p>To get a more realistic local shading compared to the default flat shading technique, we need the normal vector at each vertex. However, since we don't have this information stored for each vertex, we can infer normals from triangle faces simply by averaging surrounding face normals. Below visualizations illustrate these concepts.</p>
+
+				<div class="text-center">
+					<figure class="figure">
+					 	<img src="./assets/img/post/per-vertex-normal.png" class="figure-img img-fluid rounded" alt="Per-Vertex Normal" width="250px">
+					 	<figcaption class="figure-caption text-center">Per-Vertex Normal</figcaption>
+					</figure>
+					<figure class="figure">
+					 	<img src="./assets/img/post/area-weighted-average-per-vertex-normal.png" class="figure-img img-fluid rounded" alt="Infer Per-Vertex Normals using Triangle Faces" width="250px">
+					 	<figcaption class="figure-caption text-center">Infer Per-Vertex Normals using Triangle Faces</figcaption>
+					</figure>
+				</div>
+
+				<p>To implement the algorithm, for every vertex, I loop through the outgoing edges from that vertex. I take cross product of neighboring outgoing triangle edges and accumulate these area-weighted normal it in a variable <small><code>n</code></small>. The normalized unit vector <small><code>n</code></small> will thus be our approximation for the normal of that vertex.</p>
+
+				<p>Below is a 4-way comparison of the a teapot rendering, with and without OpenGL shading, with and without smoothed normals (face normals vs. average vertex normals). As we can see, the smoothed normals make the rendering more life-like and photo realistic.</p>
+				<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p3-1-1.jpg" class="figure-img img-fluid rounded" alt="Teapot rendering without smoothed normals">
+						  	<figcaption class="figure-caption text-center">Teapot rendering <i>without</i> smoothed normals</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p3-1-2.jpg" class="figure-img img-fluid rounded" alt="Teapot rendering with smoothed normals">
+						  	<figcaption class="figure-caption text-center">Teapot rendering <i>with</i> smoothed normals</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p3-2-1.jpg" class="figure-img img-fluid rounded" alt="Teapot Shaed without smoothed normals">
+						  	<figcaption class="figure-caption text-center">Teapot Shaed <i>without</i> smoothed normals</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p3-2-2.jpg" class="figure-img img-fluid rounded" alt="Teapot Shaed with smoothed normals">
+						  	<figcaption class="figure-caption text-center">Teapot Shaed <i>with</i> smoothed normals</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+
+				<h4><b>Part 4: Half-edge flip</b></h4>
+
+				<!-- Briefly explain how you implemented the half-edge flip operation and describe any interesting implementation/debugging tricks you used. -->
+
+				<p>Half-Edge flip is a local remeshing operation that "flips" an edge. More precisely, suppose we have a pair of triangles (a,b,c) and (c,b,d). After flipping the edge (b,c), we should now have triangles (a,d,c) and (a,b,d), as shown below. We do <i>not</i> flip an edge if it's an boundary edge.</p>
+
+				<div class="text-center">
+					<figure class="figure">
+					 	<img src="./assets/img/post/edgeflip.jpg" class="figure-img img-fluid rounded" alt="Half-Edge Flip" width="600px">
+					  	<figcaption class="figure-caption text-center">Half-Edge Flip</figcaption>
+					</figure>
+				</div>
+
+				<p>To implement this operation while ensuring constant amount of work, I first drew a picture of all the elements (vertices, edges, faces, half-edges) that are in the local neighborhood of the original mesh and the modified mesh after the half-edge flip, so I have a reference guide to follow. Then, I collect  the pointers to all elements in the original mesh. Lastly, I reassign pointers for all the elements in the modified mesh.</p>
+
+				<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/post/edgeflip-diagram-before.png" class="figure-img img-fluid rounded" alt="Local Neighborhood before Half-Edge Flip">
+						  	<figcaption class="figure-caption text-center">Local Neighborhood <i>before</i> Half-Edge Flip</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/post/edgeflip-diagram-after.png" class="figure-img img-fluid rounded" alt="Local Neighborhood after Half-Edge Flip">
+						  	<figcaption class="figure-caption text-center">Local Neighborhood <i>after</i> Half-Edge Flip</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+			 	<p>This approach is very easy to understand and debug, thus I fortunately didn't go on an epic debugging quest. Below shows the effects of half-edge flip local mesh operations.</p>
+				<div class="row">
+					<div class="col-md-2"></div>
+					<div class="col-md-8">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p4-1-1.jpg" class="figure-img img-fluid rounded" alt="Mesh before Half-Edge Flips" width="450px">
+						  	<figcaption class="figure-caption text-center">Mesh <i>before</i> Half-Edge Flips</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-2"></div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p4-1-2.jpg" class="figure-img img-fluid rounded" alt="Mesh after 1 Half-Edge Flips">
+						  	<figcaption class="figure-caption text-center">Mesh <i>after</i> 1 Half-Edge Flip</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p4-1-3.png" class="figure-img img-fluid rounded" alt="Mesh after 3 Half-Edge Flips">
+						  	<figcaption class="figure-caption text-center">Mesh <i>after</i> 3 Half-Edge Flips</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+
+				<h4><b>Part 5: Half-edge split</b></h4>
+				
+
+				<!-- Briefly explain how you implemented the half-edge split operation and describe any interesting implementation/debugging tricks you used. -->
+
+				<p>Half-Edge split is a local remeshing operation that "splits" an edge. More precisely, suppose we have a pair of triangles (a,b,c) and (c,b,d). The edge (b,c) is split by inserting a new vertex m at its midpoint and connecting it to the opposite vertices a and d, yielding four triangles:</p>
+
+				<div class="text-center">
+					<figure class="figure">
+					 	<img src="./assets/img/post/edgesplit.jpg" class="figure-img img-fluid rounded" alt="Half-Edge Split" width="600px">
+					  	<figcaption class="figure-caption text-center">Half-Edge Split</figcaption>
+					</figure>
+				</div>
+
+				<p>To implement this operation while ensuring constant amount of work, I first drew a picture of all the elements (vertices, edges, faces, half-edges) that are in the local neighborhood of the original mesh and the modified mesh after the half-edge flip, so I have a reference guide to follow. Then, I collect  the pointers to all elements in the original mesh. Next, I allocate new mesh elements (e.g., two new triangles, three edges, some half-edges...). Lastly, I reassign pointers for all the elements in the modified mesh.</p>
+
+				<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/post/edgesplit-diagram-before.png" class="figure-img img-fluid rounded" alt="Local Neighborhood before Half-Edge Split">
+						  	<figcaption class="figure-caption text-center">Local Neighborhood <i>before</i> Half-Edge Split</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/post/edgesplit-diagram-after.png" class="figure-img img-fluid rounded" alt="Local Neighborhood after Half-Edge Split">
+						  	<figcaption class="figure-caption text-center">Local Neighborhood <i>after</i> Half-Edge Split</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+			 	<p>This approach is very easy to understand and debug, thus I fortunately didn't go on an epic debugging quest. Below shows the effects of half-edge splits local mesh operations.</p>
+
+				<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p5-1-1.jpg" class="figure-img img-fluid rounded" alt="Mesh before Half-Edge Splits">
+						  	<figcaption class="figure-caption text-center">Mesh <i>before</i> Half-Edge Splits</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p5-1-2.jpg" class="figure-img img-fluid rounded" alt="Mesh before Half-Edge Splits">
+						  	<figcaption class="figure-caption text-center">Mesh <i>after</i> Half-Edge Splits</figcaption>
+						</figure>
+					</div>
+				</div>
+
+				<p>Below shows the effects of a combination of edge flips and edge splits local mesh operations.</p>
+				<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p5-2-1.jpg" class="figure-img img-fluid rounded" alt="Mesh before Half-Edge Splits &amp; Flips">
+						  	<figcaption class="figure-caption text-center">Mesh <i>before</i> Half-Edge Splits &amp; Flips</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p5-2-2.jpg" class="figure-img img-fluid rounded" alt="Mesh before Half-Edge Splits &amp; Flips">
+						  	<figcaption class="figure-caption text-center">Mesh <i>after</i> Half-Edge Splits &amp; Flips</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+
+				<h4><b>Part 6: Loop subdivision for mesh upsampling</b></h4>
+
+				<!-- Briefly explain how you implemented the Loop subdivision and describe any interesting implementation/debugging tricks you used. -->
+
+				<p>Loop subdivision is somewhat analogous to upsampling using some interpolation method in image processing: we may have a low-resolution polygon mesh that we wish to upsample for display, simulation, etc.</p>
+
+				<p>Loop subdivision consists of two basic steps:</p>
+
+				<ol>
+					<li>Change the mesh topology: split each triangle into four by connecting edge midpoints (sometimes called "4-1 subdivision" as shown below).</li>
+					
+					<div class="text-center">
+						<figure class="figure">
+						 	<img src="./assets/img/post/4-1-subdivision.jpg" class="figure-img img-fluid rounded" alt="4-1 Subdivision" width="600px">
+						  	<figcaption class="figure-caption text-center">4-1 Subdivision</figcaption>
+						</figure>
+					</div>
+
+					<li>Update vertex positions as a weighted average of neighboring positions.</li>
+
+					<div class="text-center">
+						<figure class="figure">
+						 	<img src="./assets/img/post/averaged-vertex positions-weighting.jpg" class="figure-img img-fluid rounded" alt="Weighting for the new averaged vertex positions" width="600px">
+						  	<figcaption class="figure-caption text-center">Weighting for the new averaged vertex positions</figcaption>
+						</figure>
+					</div>
+
+				</ol>
+
+				<p>Written out, the new position of an old vertex is <small><code>(1 - n*u) * original_position + u * neighbor_position_sum</code></small>, where <small><code>n</code></small> is the number of neighboring vertices, <small><code>u</code></small> is a constant as depicted in the figure above, <small><code>original_position</code></small> is the vertex's original position, and <small><code>neighbor_position_sum</code></small> is the sum of all neighboring vertices' positions.</p>
+
+				<p>The position for a newly created vertex v that splits an edge AB connecting vertices A and B and is flanked by opposite vertices C and D across the two faces connected to AB in the original mesh will be <small><code>3/8 * (A + B) + 1/8 * (C + D)</code></small></p>
+				
+				<p>If we repeatedly apply these two steps, we will converge to a smoothed approximation of our original mesh.</p> 
+
+				<p>The high level idea of my loop subdivision algorithm is that we split every edge of the mesh in any order whatsoever, and then flip any new edge that touches a new vertex and an old vertex. The following picture illustrates this idea:</p>
+
+				<div class="text-center">
+					<figure class="figure">
+					 	<img src="./assets/img/post/loop-subdivision.jpg" class="figure-img img-fluid rounded" alt="Loop Subdivision">
+					  	<figcaption class="figure-caption text-center">Loop Subdivision</figcaption>
+					</figure>
+				</div>
+
+				<p>To implement this idea, I used the following strategy in order:</p>
+
+				<ol>
+					<li>Loop through all vertices in the mesh and mark them as old vertices (<small><code>v->isNew = false</code></small>). For each vertex I visit, I calculate the sum of neighboring vertex positions around this vertex, and then use this value to compute vertex's new position in the modified mesh, as a weighted average of neighboring positions. I save this new position value in <small><code>Vertex::newPosition</code></small>.</li>
+					<li>Loop through all edges in the original mesh. Mark them as old edges (<small><code>e->isNew = false</code></small>) and compute the updated vertex positions associated with these edges and store them in <small><code>Edge::newPosition</code></small>. This will be the position of new vertices, if it's added to this edge by an edge split.</li>
+					<li>Loop through all <b>old</b> edges in the original mesh and split the old edge if it's not a boundary edge. We mark the newly added vertex from the half-edge split as a new vertex (<small><code>m->isNew = true</code></small>); mark the two edges along the original edge that was split still as old (<small><code>e->isNew = false</code></small>); mark the other two new edges as new edge (<small><code>e->isNew = true</code></small>); and set the new position of the new vertex <small><code>m</code></small> to be the new position of the edge that was split.</li>
+					<li>Loop through every edge in the modified mesh, and flip any new edge that connects an old and new vertex.</li>
+					<li>Loop through every vertex in the modified mesh, and update it's position with the new position.</li>
+					<li>Loop through every vertex and edge in the modified mesh and reset the <small><code>isNew</code></small> flag to <small><code>false</code></small> again, ready for next round of loop subdivision.</li>
+				</ol>
+
+				
+				<!-- Take some notes as well as some screenshots to record your observations of how meshes behave after Loop subdivision. What happens to sharp corners and edges? Can you lessen this effect by pre-splitting some edges? -->
+
+				<!-- Load up dae/cube.dae. Try several iterations of Loop subdivision on the cube. Notice that the cube.dae becomes slightly asymmetric after repeated subdivision steps. Play around with this using flip and split. Can you pre-process the cube with flip and split so it subdivides symmetrically? Document these effects and explain why they occur, and how your pre-processing helps alleviate the effects. -->
+
+				<p>Below shows the effects of loop subdivision on a torus,  iteration by iteration.</p>
+
+			 	<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-2-1.jpg" class="figure-img img-fluid rounded" alt="Mesh Torus Loop Subdivision (iteration 0)">
+						  	<figcaption class="figure-caption text-center">Mesh Torus Loop Subdivision (iteration 0)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-2-2.jpg" class="figure-img img-fluid rounded" alt="Mesh Torus Loop Subdivision (iteration 1)">
+						  	<figcaption class="figure-caption text-center">Mesh Torus Loop Subdivision (iteration 1)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-2-3.jpg" class="figure-img img-fluid rounded" alt="Mesh Torus Loop Subdivision (iteration 2)">
+						  	<figcaption class="figure-caption text-center">Mesh Torus Loop Subdivision (iteration 2)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-2-4.jpg" class="figure-img img-fluid rounded" alt="Mesh Torus Loop Subdivision (iteration 3)">
+						  	<figcaption class="figure-caption text-center">Mesh Torus Loop Subdivision (iteration 3)</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+
+			 	<p>Below shows the effects of loop subdivision on a cube,  iteration by iteration.</p>
+
+			 	<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-1-1.jpg" class="figure-img img-fluid rounded" alt="Mesh Cube Loop Subdivision (iteration 0)">
+						  	<figcaption class="figure-caption text-center">Mesh Cube Loop Subdivision (iteration 0)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-1-2.jpg" class="figure-img img-fluid rounded" alt="Mesh Cube Loop Subdivision (iteration 1)">
+						  	<figcaption class="figure-caption text-center">Mesh Cube Loop Subdivision (iteration 1)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-1-3.jpg" class="figure-img img-fluid rounded" alt="Mesh Cube Loop Subdivision (iteration 2)">
+						  	<figcaption class="figure-caption text-center">Mesh Cube Loop Subdivision (iteration 2)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-1-4.jpg" class="figure-img img-fluid rounded" alt="Mesh Cube Loop Subdivision (iteration 3)">
+						  	<figcaption class="figure-caption text-center">Mesh Cube Loop Subdivision (iteration 3)</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+			 	<p>As we can clearly see, the loop subdivision smooths out the sharp corners and edges for the mesh, as expected by the algorithm. The cube also becomes slightly asymmetric after repeated subdivision steps.</p>
+
+			 	<p>We can lessen the smoothing effect by pre-splitting some edges. For instance, by with pre-splitting to have more sharp corners and point clusters in the mesh itself, the loop subdivision will have a lessened smoothing effect. Below illustrates an example of this idea on the cube:</p>
+
+			 	<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-3-1.jpg" class="figure-img img-fluid rounded" alt="Lessen Smoothing Effect via Pre-Splitting (iteration 0)">
+						  	<figcaption class="figure-caption text-center">Lessen Smoothing Effect via Pre-Splitting (iteration 0)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-3-2.jpg" class="figure-img img-fluid rounded" alt="Lessen Smoothing Effect via Pre-Splitting (iteration 1)">
+						  	<figcaption class="figure-caption text-center">Lessen Smoothing Effect via Pre-Splitting (iteration 1)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-3-3.jpg" class="figure-img img-fluid rounded" alt="Lessen Smoothing Effect via Pre-Splitting (iteration 2)">
+						  	<figcaption class="figure-caption text-center">Lessen Smoothing Effect via Pre-Splitting (iteration 2)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-3-4.jpg" class="figure-img img-fluid rounded" alt="Lessen Smoothing Effect via Pre-Splitting (iteration 3)">
+						  	<figcaption class="figure-caption text-center">Lessen Smoothing Effect via Pre-Splitting (iteration 3)</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+			 	<p>To lessen the asymmetric effect on cube after repeated subdivision steps, we can also pre-processing with flips and splits on the mesh to help alleviate the effect. The original cube becomes slightly asymmetric after loop subdivision, because the diagonal edge on the six sides of the cube point to different diagonals from face to face. Thus, we can split these diagonal edges so each square side of the cube has two diagonal edges (forming a cross X). The pre-processed cube mesh is then symmetric in terms of edges on each cube face, so the resulting geometry after loop subdivision will be more symmetric.</p>
+
+			 	<p>Below illustrates this idea on the cube:</p>
+
+			 	<div class="row">
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-4-1.jpg" class="figure-img img-fluid rounded" alt="Remove Asymmetry via Pre-Splitting (iteration 0)">
+						  	<figcaption class="figure-caption text-center">Remove Asymmetry via Pre-Splitting (iteration 0)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-4-2.jpg" class="figure-img img-fluid rounded" alt="Remove Asymmetry via Pre-Splitting (iteration 1)">
+						  	<figcaption class="figure-caption text-center">Remove Asymmetry via Pre-Splitting (iteration 1)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-4-3.jpg" class="figure-img img-fluid rounded" alt="Remove Asymmetry via Pre-Splitting (iteration 2)">
+						  	<figcaption class="figure-caption text-center">Remove Asymmetry via Pre-Splitting (iteration 2)</figcaption>
+						</figure>
+					</div>
+					<div class="col-md-6">
+							<figure class="figure">
+						 	<img src="./assets/img/result/p6-4-4.jpg" class="figure-img img-fluid rounded" alt="Remove Asymmetry via Pre-Splitting (iteration 3)">
+						  	<figcaption class="figure-caption text-center">Remove Asymmetry via Pre-Splitting (iteration 3)</figcaption>
+						</figure>
+					</div>
+			 	</div>
+
+			</div>
+			<!-- End Post Content -->
+
+			<!-- Begin Tags -->
+			<div class="after-post-tags">
+				<ul class="tags">
+					<li><a href="#" class="disabled">Mesh Editor</a></li>
+					<li><a href="#" class="disabled">Bezier Curves</a></li>
+					<li><a href="#" class="disabled">de Casteljau Algorithm</a></li>
+					<li><a href="#" class="disabled">Computer Graphics</a></li>
+				</ul>
+			</div>
+			<!-- End Tags -->
+
+		</div>
+		<!-- End Post -->
+
+	</div>
+</div>
+<!-- End Article
+================================================== -->
+
+<div class="hideshare"></div>
+
+<!-- Begin Footer
+================================================== -->
+<div class="container">
+	<div class="footer">
+		<p class="pull-left">
+			 Copyright &copy; CS 184: Computer Graphics and Imaging, Spring 2018
+		</p>
+		<p class="pull-right">
+			 Gan Tu
+		</p>
+		<div class="clearfix">
+		</div>
+	</div>
+</div>
+<!-- End Footer
+================================================== -->
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="./assets/js/jquery.min.js"></script>
+<script src="./assets/js/tether.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+<script src="./assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="./assets/js/mediumish.js"></script>
+<script src="./assets/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+	// ===== Scroll to Top ==== 
+$(window).scroll(function() {
+    if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
+        $('#return-to-top').fadeIn(200);    // Fade in the arrow
+    } else {
+        $('#return-to-top').fadeOut(200);   // Else fade out the arrow
+    }
+});
+$('#return-to-top').click(function() {      // When arrow is clicked
+    $('body,html').animate({
+        scrollTop : 0                       // Scroll to top of body
+    }, 500);
+});
+</script>
+</body>
+</html>
