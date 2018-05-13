@@ -8,10 +8,6 @@ You can read my detailed [writeup](https://michael-tu.github.io/Mesh-Editor/) to
 
 ![Demo](docs/assets/img/demo.png)
 
-## COLLADA mesh files
-
-You can **download** some [example COLLADA mesh files](https://www.dropbox.com/sh/epuily09d4a7vjy/AAB3YRhWl1aeYlAoE_1vmviHa?dl=1). Unzip the file and put the unzipped `dae` folder together with other code.
-
 ## Using the GUI
 
 _Note: You have to run the executable insdie the `build` folder, which will be explained in the next section_
@@ -51,6 +47,12 @@ Each operation will be executed with a key press.
 - **Local flip (F) and split (S) operations**: modify the mesh in a small neighborhood around the currently selected mesh element.
 
 - **Loop subdivision (U)**: refine and smooth the entire mesh.
+
+To load a mesh, run a command such as:
+
+```
+./meshedit ../dae/teapot.dae
+```
 
 ### Keyboard Controls
 
